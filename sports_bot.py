@@ -94,9 +94,9 @@ def get_stats(url, sport):
         teams = soup.findAll(attrs={'data-stat': 'school_name'})
         num_of_stats = 9
 
-    name = soup.find("h1", {'itemprop': 'name'})
-    if not name:
-        return 0
+    # name = soup.find("h1", {'itemprop': 'name'})
+    # if not name:
+    #     return 0
 
     seasons = len(stats) / num_of_stats
 
@@ -109,7 +109,6 @@ def format_stats(season_stats, num_of_seasons, teams, sport, season_or_career):
     career_stats = ''
     season_or_career = season_or_career.upper()
 
-    print(season_stats)
 
     for i in range(0, int(num_of_seasons)):
         if season_or_career == 'CAREER':
@@ -224,12 +223,13 @@ def get_text_stats(stats, num_of_stats, sport):
     return game_stats
 
 
-def run(data, bot_info, send):
-    message = data['text']
+def run():
+    message = '@sports-bot mlb-batting Career mike trout'
+    #https: // www.baseball - reference.com / players / t / troutmi01.shtml
 
-    if message == '.test':
-        send("yes master", bot_info[0])
-        return True
+    # if message == '.test':
+    #     send("yes master", bot_info[0])
+    #     return True
 
     if '@sports-bot' in message:
         count = 0
@@ -237,14 +237,23 @@ def run(data, bot_info, send):
         user_message_array = user_message.split(' ')
         if 'nba' in user_message_array[1] or 'mlb' in user_message_array[1] or 'ncaa' in user_message_array[1]:
             count = 1
-        while True:
-            url = get_url(user_message_array, count)
-            season_info = get_stats(url, user_message_array[1])
-            if season_info == 0:
-                break
-            career_stats = format_stats(season_info[0], season_info[1], season_info[2], user_message_array[1],
-                                        user_message_array[2])
-            send(career_stats, bot_info[0])
-            count += 1
+        # while True:
+        #     url = get_url(user_message_array, count)
+        #     season_info = get_stats(url, user_message_array[1])
+        #     if season_info == 0:
+        #         break
+        #     career_stats = format_stats(season_info[0], season_info[1], season_info[2], user_message_array[1],
+        #                                 user_message_array[2])
+        #     send(career_stats, bot_info[0])
+        #     count += 1
+
+        url = get_url(user_message_array, count)
+        print(url)
+        season_info = get_stats(url, user_message_array[1])
+        career_stats = format_stats(season_info[0], season_info[1], season_info[2], user_message_array[1], user_message_array[2])
+        print(career_stats)
 
     return True
+
+
+run()
